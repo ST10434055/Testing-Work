@@ -31,7 +31,7 @@ public class Login {
             String Upassword = String.valueOf(Userpassword.getPassword());
             ValidateLogin(Uname, Upassword); //not needed (Keeping incase)
             if ( ValidateLogin(Uname, Upassword) == true ) {
-                JOptionPane.showMessageDialog(null, "Welcome "+ User.users[i]._name +" "+ User.users[i]._surname + " to EasyKanban");
+                JOptionPane.showMessageDialog(null, "Welcome to EasyKanban");
                 KanbanMenu.PromptKanBanMenu();
             } else {
                 JOptionPane.showMessageDialog(null, "Username or password incorrect, please try again");
