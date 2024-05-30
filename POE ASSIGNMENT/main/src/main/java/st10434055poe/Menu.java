@@ -27,8 +27,8 @@ public class Menu {
                     break;
                 case Login:
                     // Do something for Option 1
-                    KanbanMenu.PromptKanBanMenu();       //For Development purposes for easy access 
-                    // Login.LOGIN();
+                    // KanbanMenu.PromptKanBanMenu();       //For Development purposes for easy access 
+                    Login.LOGIN();
                     break;
                 default:
                     System.out.println("Invalid choice. Please select one of the options");

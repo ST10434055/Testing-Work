@@ -47,55 +47,38 @@ public class AddingTask {
             String Tname = TaskName.getText();
             String Tdescription = TaskDescription.getText();
             int Tduration = (int)TaskDuration.getValue();
+            //Make sure the duration is always a positive
+            Tduration = Math.abs(Tduration);
+            //Counts Number of tasks
             int Number = TaskArray.TaskCount+1;
             String DevName1 = DevName.getText();
             String DevSurname2 = DevSurname.getText();
-            String ID = TaskArray.idMaker(Tname, DevSurname2, Number);
-            int Nstatus = statusGroup.getButtonCount();
-            String Status = "";
-            if (Nstatus == 0) {
+            String Status = "To_Do";
+            //Below sets the status to the selected option
+            if (To_Do.isSelected()) {
                  Status = "To Do";
-            } else if (Nstatus == 1) {
+            } else if (Doing.isSelected()) {
                  Status = "Doing";
-            } else if (Nstatus == 2) {
+            } else if (Done.isSelected()) {
                  Status = "Done";
             }
-
-
-            // if (statusGroup.equals(To_Do)) {
-            //     Status = "To Do";
-            // } else if (statusGroup.equals(Doing)) {
-            //     Status = "Doing";
-            // } else if (statusGroup.equals(Done)) {
-            //     Status = "Done";
-            // }
-
-            // if (Tname.equals(null)) {
-            //     PromptQuestion2();
-            // } else if (Tdescription == null){
-            //     PromptQuestion2();
-            // }   else if (Tduration <= 0) {
-            //     PromptQuestion2();
-            // }     else if (DevName1.equals(null)){
-            //     PromptQuestion2();
-            // }       else if (DevSurname2.equals(null)) {
-            //     PromptQuestion2();
-            // }         else if (Status.equals(null)) {
-            //     PromptQuestion2();
-            // } else {
-            //     TaskArray Task = new TaskArray(Tname, Tdescription, Tduration, Number, DevName1, DevSurname2, ID ,Status);
-
-            //     TaskArray.addNewTask(Task);
-    
-            //     TaskArray.printAdded();
-            // }
-
-            TaskArray Task = new TaskArray(Tname, Tdescription, Tduration, Number, DevName1, DevSurname2, ID ,Status);
-
-            TaskArray.addNewTask(Task);
-
-            TaskArray.printAdded();
             
+            if (Checks(Tname, Tdescription, DevName1, DevSurname2, Tduration)) {
+                String ID = TaskArray.idMaker(Tname, DevSurname2, Number);
+                TaskArray Task = new TaskArray(Tname, Tdescription, Tduration, Number, DevName1, DevSurname2, ID ,Status);
+
+                if (!DescriptionCheck(Tdescription)) {
+                    JOptionPane.showMessageDialog(null, "Please make sure Description is equal to or below 50 characters.",Tdescription, JOptionPane.ERROR_MESSAGE);
+                    CreatingTask();
+                } else {
+                    TaskArray.addNewTask(Task);
+                    // TaskArray.printAdded(); //Displays after every enter 
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Please fill in all the required fields");
+                CreatingTask();
+            }
         }
 
         if (result == JOptionPane.CANCEL_OPTION) {
@@ -103,6 +86,19 @@ public class AddingTask {
         }
 
     }
+
+    public static boolean Checks(String Tname, String Tdescription, String DevName1, String DevSurname2, int Tduration) {
+        return  !Tname.isEmpty() || !Tdescription.isEmpty() || Tduration != 0 || !DevName1.isEmpty() || !DevSurname2.isEmpty();
+    } 
+
+    public static boolean DescriptionCheck(String Description){
+        if (Description.length() > 50) {
+            return false;
+        }
+            return true;
+    }
+
+    
 
     public enum Question {
         Yes,
@@ -154,12 +150,12 @@ public class AddingTask {
 
             if (!(TaskArray.TaskArr[i] == null)) {
                 allTasks += "Task Name: " + TaskArray.TaskArr[i].Tname + "\n"
-                + "Number: " + TaskArray.TaskArr[i].Number + "\n"
-                + "Description: " + TaskArray.TaskArr[i].Tdescription + "\n"
-                + "Developer: " + TaskArray.TaskArr[i].DevName + " " + TaskArray.TaskArr[i].DevSurname + "\n"
-                + "Duration: " + TaskArray.TaskArr[i].Tduration + "\n"
-                + "ID: " + TaskArray.TaskArr[i].ID + "\n"
-                + "Status: " + TaskArray.TaskArr[i].Status + "\n\n";
+                + "Task Number: " + TaskArray.TaskArr[i].Number + "\n"
+                + "Task Description: " + TaskArray.TaskArr[i].Tdescription + "\n"
+                + "Task Developer: " + TaskArray.TaskArr[i].DevName + " " + TaskArray.TaskArr[i].DevSurname + "\n"
+                + "Task Duration: " + TaskArray.TaskArr[i].Tduration + "\n"
+                + "Task ID: " + TaskArray.TaskArr[i].ID + "\n"
+                + "Task Status: " + TaskArray.TaskArr[i].Status + "\n\n";
             }
         }
         return allTasks;
